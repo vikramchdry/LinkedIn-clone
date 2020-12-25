@@ -10,6 +10,8 @@ import InputOptions from './InputOptions';
 
 
 function Post({ name, description, message, photoUrl }) {
+
+
     return (
 
         <div className='post'>
