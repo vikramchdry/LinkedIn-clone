@@ -17,8 +17,10 @@ function Login() {
 
     const register = () => {
         if (!name) {
+
             return alert("Please enter a full name");
         }
+        
     };
 
     return (
