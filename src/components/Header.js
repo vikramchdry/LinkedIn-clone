@@ -7,10 +7,20 @@ import SmsIcon from '@material-ui/icons/Sms';
 import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
 import BusinessCenterIcon from '@material-ui/icons/BusinessCenter';
 import NotificationsIcon from '@material-ui/icons/Notifications';
+import { logout } from './userSlice';
+import { auth } from './firebase';
+import { useDispatch } from "react-redux";
 
 
 
 function Header() {
+    const dispatch = useDispatch();
+
+    const logoutOfApp = () => {
+        dispatch(logout())
+        auth.signOut();
+    };
+
     return (
         <div className="header">
 
@@ -30,7 +40,7 @@ function Header() {
                 <HeaderOption Icon={SmsIcon} title='Message' />
                 <HeaderOption Icon={NotificationsIcon} title='Notifications' />
 
-                <HeaderOption avatar="https://gyeditz.blogspot.com/2020/02/professional-dp-photo-editing-concept.html" title='Me' />
+                <HeaderOption avatar="https://gyeditz.blogspot.com/2020/02/professional-dp-photo-editing-concept.html" title='Me' onClick={logoutOfApp} />
 
             </div>
 

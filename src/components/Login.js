@@ -1,5 +1,11 @@
-import React, { useState } from 'react'
+import React, { useState, } from 'react';
 import '../styles/Login.css';
+import { useDispatch } from 'react-redux';
+//import firebase from 'firebase';
+import { login } from './userSlice';
+import { auth } from './firebase';
+
+
 
 function Login() {
 
@@ -7,12 +13,26 @@ function Login() {
     const [password, setPassword] = useState("");
     const [name, setName] = useState("");
     const [profilePic, setProfilePic] = useState("");
+    const dispatch = useDispatch();
 
 
 
     const logintoApp = (e) => {
 
         e.preventDefault();
+
+        auth.signInWithEmailAndPassword(email, password)
+            .then(userAuth => {
+                dispatch(login({
+
+                    email: userAuth.user.email,
+                    uid: userAuth.user.uid,
+                    displayName: userAuth.user.displayName,
+                    profilePic: userAuth.user.photoURL,
+
+
+                }));
+            }).catch(error => alert(error));
     };
 
     const register = () => {
@@ -20,7 +40,27 @@ function Login() {
 
             return alert("Please enter a full name");
         }
-        
+        auth.createUserWithEmailAndPassword(email, password).then((userAuth) => {
+            userAuth.user.updateProfile({
+
+                displayName: name,
+                photoURL: profilePic,
+
+            })
+                .then(() => {
+                    dispatch(login({
+                        email: userAuth.user.email,
+                        uid: userAuth.user.uid,
+                        displayName: name,
+                        photoUrl: profilePic,
+
+                    }));
+                });
+        }).catch(error => {
+            alert(error)
+
+        });
+
     };
 
     return (
