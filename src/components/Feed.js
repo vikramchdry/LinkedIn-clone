@@ -10,8 +10,12 @@ import EventNoteIcon from '@material-ui/icons/EventNote';
 import CalendarViewDayIcon from '@material-ui/icons/CalendarViewDay';
 import { db } from './firebase';
 import firebase from 'firebase';
+import { useSelector } from 'react-redux';
+import { selectUser } from './userSlice';
 
 function Feed() {
+
+    const user = useSelector(selectUser);
 
     const [input, setInput] = useState("");
 
@@ -36,10 +40,10 @@ function Feed() {
         db.collection('posts').add(
             {
 
-                name: 'Vikram Singh',
-                description: "this is portfolio",
+                name: user.displayName,
+                description: user.email,
                 message: input,
-                photoUrl: '',
+                photoUrl: user.photoUrl || "",
                 timestamp: firebase.firestore.FieldValue.serverTimestamp(),
 
             });
